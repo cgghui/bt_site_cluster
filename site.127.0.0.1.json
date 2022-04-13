@@ -1,0 +1,19 @@
+[
+  {
+    "bind_domain": [
+      "blog.baidu.com"
+    ],
+    "path": "/www/wwwroot",
+    "program": "/www/program_z_blog.zip",
+    "program_name": "z-blog",
+    "rewrite_file_path": "./site_edit_file/z_blog/rewrite.conf",
+    "sql_file_path": "./site_edit_file/z_blog/sql.sql",
+    "edit_files": [
+      {
+        "local": "./site_edit_file/z_blog/zb_users/c_option.php",
+        "server": "/zb_users/c_option.php"
+      }
+    ],
+    "reset_admin_password": true
+  }
+]
