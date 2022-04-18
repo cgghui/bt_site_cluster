@@ -12,6 +12,7 @@ import (
 )
 
 const FLAG = os.O_RDWR | os.O_CREATE | os.O_APPEND
+const ThreadNum = 30
 
 func main() {
 	var (
@@ -34,7 +35,7 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	wg := &sync.WaitGroup{}
-	for i := 0; i < 6; i++ {
+	for i := 0; i < ThreadNum; i++ {
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()

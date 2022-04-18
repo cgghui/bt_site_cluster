@@ -540,11 +540,19 @@ func (s *Session) GetDatabaseList() (*ResponseTableDatabases, error) {
 	if err = json.NewDecoder(resp.Body).Decode(&ret); err != nil {
 		return nil, fmt.Errorf("获取数据库列表失败 Error[4]: %v", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 	return &ret, nil
 }
 
-func (s *Session) GetSiteList() (*ResponseTableSites, error) {
+func (s *Session) GetSiteListWithTimeout(out time.Duration) (*ResponseTableSites, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), out)
+	defer cancel()
+	return s.GetSiteListWithContext(ctx)
+}
+
+func (s *Session) GetSiteListWithContext(ctx context.Context) (*ResponseTableSites, error) {
 	body := url.Values{}
 	body.Add("table", "sites")
 	body.Add("type", "-1")
@@ -560,8 +568,8 @@ func (s *Session) GetSiteList() (*ResponseTableSites, error) {
 	req.Header.Add("x-cookie-token", s.cookieToken)
 	req.Header.Add("Cookie", s.cookieStr)
 	req.Header.Add("User-Agent", UserAgent)
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
+	var resp *http.Response
+	if resp, err = http.DefaultClient.Do(req.WithContext(ctx)); err != nil {
 		return nil, fmt.Errorf("获取站点列表失败 Error[2]: %v", err)
 	}
 	if resp.StatusCode != http.StatusOK {
@@ -741,8 +749,8 @@ func (s *Session) GetTaskListsWithContext(ctx context.Context) ([]ResponseTask, 
 	req.Header.Add("x-cookie-token", s.cookieToken)
 	req.Header.Add("Cookie", s.cookieStr)
 	req.Header.Add("User-Agent", UserAgent)
-	resp, err := http.DefaultClient.Do(req.WithContext(ctx))
-	if err != nil {
+	var resp *http.Response
+	if resp, err = http.DefaultClient.Do(req.WithContext(ctx)); err != nil {
 		return nil, fmt.Errorf("获取任务列表失败 Error[2]: %v", err)
 	}
 	if resp.StatusCode != http.StatusOK {
