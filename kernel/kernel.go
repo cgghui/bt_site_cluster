@@ -25,7 +25,7 @@ func LoadBtPanelConfig(ret interface{}) error {
 	return nil
 }
 
-func loadSiteConfig(ip string) ([]SiteConfig, error) {
+func LoadSiteConfig(ip string) ([]SiteConfig, error) {
 	fp, err := os.Open("./site." + ip + ".json")
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func NewBtPanelThread(ctx context.Context, opt *bt.Option, logS, logF *os.File) 
 	}
 	// 加载站点
 	var siteList []SiteConfig
-	if siteList, err = loadSiteConfig(thread.ip); err != nil {
+	if siteList, err = LoadSiteConfig(thread.ip); err != nil {
 		thread.log(nil, "加载站点列表失败 Err: %v", err)
 		return
 	}

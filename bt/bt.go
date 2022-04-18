@@ -546,12 +546,14 @@ func (s *Session) GetDatabaseList() (*ResponseTableDatabases, error) {
 	return &ret, nil
 }
 
+// GetSiteListWithTimeout 战点列表
 func (s *Session) GetSiteListWithTimeout(out time.Duration) (*ResponseTableSites, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), out)
 	defer cancel()
 	return s.GetSiteListWithContext(ctx)
 }
 
+// GetSiteListWithContext 战点列表
 func (s *Session) GetSiteListWithContext(ctx context.Context) (*ResponseTableSites, error) {
 	body := url.Values{}
 	body.Add("table", "sites")
