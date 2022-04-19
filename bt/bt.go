@@ -38,11 +38,12 @@ func New(link string) *Bt {
 }
 
 type Option struct {
-	Link     string `json:"url"`      //后面地址路径
-	Username string `json:"username"` // 账号
-	Password string `json:"password"` // 密码
-	Code     string `json:"code"`
-	Node     string `json:"node"` // 备注
+	Link     string   `json:"url"`      //后面地址路径
+	Username string   `json:"username"` // 账号
+	Password string   `json:"password"` // 密码
+	Code     string   `json:"code"`     //
+	Node     string   `json:"node"`     // 备注
+	s        *Session // 共享会话
 }
 
 // LoadOption 从文件加载option
@@ -56,6 +57,15 @@ func LoadOption(filePath string) (*Option, error) {
 		return nil, err
 	}
 	return &opt, err
+}
+
+func (o *Option) SetLoginSession(s *Session) *Session {
+	o.s = s
+	return s
+}
+
+func (o *Option) GetLoginSession() *Session {
+	return o.s
 }
 
 func (o *Option) Login(ctx context.Context) (*Session, error) {
