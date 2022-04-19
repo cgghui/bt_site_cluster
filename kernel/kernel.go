@@ -25,19 +25,15 @@ func LoadBtPanelConfig(ret interface{}) error {
 	return nil
 }
 
-func LoadSiteConfig(ip string) ([]SiteConfig, error) {
+func LoadSiteConfig(ip string, ret interface{}) error {
 	fp, err := os.Open("./bt_site." + ip + ".json")
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer func() {
 		_ = fp.Close()
 	}()
-	var ret []SiteConfig
-	if err = json.NewDecoder(fp).Decode(&ret); err != nil {
-		return nil, err
-	}
-	return ret, nil
+	return json.NewDecoder(fp).Decode(&ret)
 }
 
 type BtPanelThread struct {
@@ -65,7 +61,7 @@ func NewBtPanelThread(ctx context.Context, opt *bt.Option, logS, logF *os.File) 
 	}
 	// 加载站点
 	var siteList []SiteConfig
-	if siteList, err = LoadSiteConfig(thread.ip); err != nil {
+	if err = LoadSiteConfig(thread.ip, &siteList); err != nil {
 		thread.log(nil, "加载站点列表失败 Err: %v", err)
 		return
 	}
