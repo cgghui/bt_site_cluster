@@ -26,7 +26,7 @@ func LoadBtPanelConfig(ret interface{}) error {
 }
 
 func LoadSiteConfig(ip string) ([]SiteConfig, error) {
-	fp, err := os.Open("./site." + ip + ".json")
+	fp, err := os.Open("./bt_site." + ip + ".json")
 	if err != nil {
 		return nil, err
 	}
