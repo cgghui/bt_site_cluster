@@ -1,0 +1,1 @@
+var DTPath = "http://{{.Domain}}/";var DTMob = "http://{{.Domain}}/mobile/";var SKPath = "http://{{.Domain}}/skin/default/";var MEPath = "http://{{.Domain}}/member/";var DTEditor = "fckeditor";var CKDomain = "";var CKPath = "/";var CKPrex = "cxd_";

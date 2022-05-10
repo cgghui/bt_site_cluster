@@ -154,7 +154,7 @@ func (s *SiteConfig) Run() {
 			s.bpt.log(s.bpt.logF, "【%s】站点上传sql备份文件失败 Err: %v", s.BindDomain[0], err)
 			return
 		}
-		if err = s.bpt.s.RestoreBackupDBWithTimeout(s10, TplVar["NameDB"], bt.DBackupRoot+"/"+storeName); err != nil {
+		if err = s.bpt.s.RestoreBackupDBWithTimeout(m10, TplVar["NameDB"], bt.DBackupRoot+"/"+storeName); err != nil {
 			s.bpt.log(s.bpt.logF, "【%s】站点还原数据库备份失败 Err: %v", s.BindDomain[0], err)
 			return
 		}
